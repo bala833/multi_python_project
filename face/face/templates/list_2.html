@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<style type="text/css">
+.pagination_ {
+  display: flex;
+  list-style: none;
+}
+.pagination_ li {
+  flex: 1;
+  border-radius: 3px;
+}
+.pagination li.active a {
+  font-size: 17px;
+  color: #C4C4C9;
+}
+
+</style>
+
+{% for names in page_obj %}
+    .....{{ names.name|upper }} {{names.user_id}}<br>
+
+{% endfor %}
+{% comment %}
+<div class="pagination_">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endcomment %}
+
+
+<div class="container">
+  <ul class="pagination">
+        {% if page_obj.has_previous %}
+    <li class="mr-2">
+            <!-- <a href="?page=1">&laquo; first</a> -->
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    </li>
+        {% endif %}
+    <li><a href="#">{{ page_obj.number }}</a></li>
+        {% if page_obj.has_next %}
+    <li class="ml-2">
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <!-- <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> -->
+    </li>
+        {% endif %}
+  </ul>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+$("li").click(function () {
+  $(this).addClass("active").siblings().removeClass("active");
+});
+</script>
+{% endblock javascripts %}

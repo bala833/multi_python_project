@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="" style="margin-bottom: 250px !important" >
+<form method="post" action="" id="add_new_face" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container m-5">
+        {% crispy form %}
+        <span id="name_valid" style="color: red;">*Do not use Space </span>
+        <br>
+        <input type="submit" id="save" class="btn btn-success" value="Save">
+        <a id="cancel" class="btn btn-secondary" href="{% url 'face' %}">Cancel</a><br>
+
+        <a id="pagignation" class="btn btn-secondary" href="{% url 'listing' %}">Pagination</a>
+    </div>
+</form>
+</div>
+{% endblock content%}
+
+
+{% block javascripts%}
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+  $('#add_new_face').hide();
+  $('#add_new_face').show();
+});
+
+
+$( "#save6666" ).click(function() {
+    var name = ($('#id_name').val())
+    var user_id = ($('#id_user_id').val())
+    alert($('#id_name').val())
+
+    $.ajax({
+        url: '{% url "TakeImages" %}',
+        data: {
+            'name': name,
+            'user_id': user_id,
+
+        },
+        dataType: 'json',
+        success: function(data) {
+            alert(data)
+
+        }
+    });
+  });
+
+$('#name_valid').hide()
+
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+    // sleep();
+
+$('#save').click(function(e) {
+    var name = $('#id_name').val()
+    if ((/\s+/).test(name)){
+        $('#name_valid').show()
+        e.preventDefault();
+        sleep(1000)
+        $('#id_name').val('');
+        // return false;
+    }
+    else{
+        $('#name_valid').hide()
+    }  
+});
+</script>
+{% endblock javascripts%}

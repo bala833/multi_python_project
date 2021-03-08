@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content%}
+<div class="" style="margin-bottom: 250px !important">
+	<div class="m-3">
+<a class="btn btn-secondary" href="{% url 'success' %}">Go To List Page</a>
+</div>
+<form method="post" action="" id="add_new_face" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container m-5">
+        {% crispy form %}
+        <input type="submit" id="save" class="btn btn-success" value="Convert">
+        <a class="btn btn-secondary" href="{% url 'home' %}">Cancel</a>
+    </div>
+</form>
+</div>
+{% endblock content%}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+$('#div_id_text').hide()
+</script>
+{% endblock javascripts %}

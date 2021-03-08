@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<style type="text/css">
+.zoom_ {
+ transition: transform 0.5s;
+}
+.zoom_:hover {
+  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+</style>
+	<div class="m-3">
+		<a class="btn " href="{% url 'home' %}">Home</a>
+	</div>
+<div class="m-5">
+    <table class="table" id="data_table_">
+        <thead>
+            <tr class="ml-5">
+                <th>Image</th>
+                <th>Text</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for it in img_txt %}
+            <tr>
+                <td><img class="img-fluid zoom_ ml-5" id="{{it.image.url}}" alt="{{it.image.url}}" style="max-width: 50%;max-height: 20%;position: relative;" src="{{it.image.url}}"></td>
+                <td>{{it.text}}</td>
+
+                <td><a class="btn btn-warning" href="{% url 'delete_text' id=it.id %}">Delete</a></td>
+            </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+{% endblock content %}
+
+{% block javascripts%}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#data_table_').DataTable();
+} );
+
+
+
+
+
+
+
+
+
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+
+{% for it in img_txt %}
+// alert('{{it.id}}')
+var img = document.getElementById('{{it.id}}');
+{% endfor %}
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+</script>
+{% endblock javascripts%}

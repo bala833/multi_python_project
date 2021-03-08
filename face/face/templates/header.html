@@ -1,0 +1,58 @@
+{% load static %}
+<style type="text/css">
+.bala {
+/*  width: 100px;
+  height: 100px;
+  background: red;*/
+  position: relative;
+  animation-name: mymove;
+  animation-iteration-count: infinite;
+  animation-duration: 10s;
+}
+
+@keyframes mymove {
+  from {top: 0px;}
+  to {top: 300px;}
+}
+</style>
+<div>
+<div class="row m-2 ">
+    <div class="col-md-3">
+        <a href="{% url 'home' %}">
+            <img src="{% static '/images/face_image_gif.gif' %}" style="border-radius: 318px 238px;width: 70px;height: 64px; 
+    box-shadow: 0px 0px 11px 2px black;">
+        </a>
+    </div>
+    <div class="col-md-6 text-center">
+        <h4>Face Recognization Using Django.</h4>
+    </div>
+    <!-- floating all names  -->
+    {% comment %}
+    <div class="col-md-3 mt-5 mb-5 text-center">
+        {% for names in name %}
+        <div class="bala" >{{names.name}}</div>
+
+        {% endfor %}
+    </div>
+    {% endcomment %}
+    </div>
+    <div>
+      {% if img_txt_%}
+    <marquee>
+       <h2 style="margin-bottom: 0px !important">
+            Converted Image To Test
+        </h2>
+    </marquee>
+    {% else %}
+    {% if count_all_face%}
+    <marquee>
+        <h2 style="margin-bottom: 0px !important">
+            Total Face Detected <span style="color: yellow;">{{count_all_face}}</span>
+        </h2>
+    </marquee>
+    {% endif %}
+    {% endif %}
+    <div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="m-3">
+	<a class="btn btn-secondary" href="{% url 'home' %}">Home</a>
+	
+</div>
+<div class="m-5" style="margin-bottom: 300px !important;">
+    <table class="table" id="data_table_">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rows in rows_list %}
+            <tr>
+                <!-- ['id',['bala'],date,time] doing indexing -->
+                <td>{{ rows.0 }}</td>
+                <td>{{ rows.1 }}</td>
+                <td>{{ rows.2 }}</td>
+                <td>{{ rows.3 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+
+{% block javascripts%}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#data_table_').DataTable();
+} );
+</script>
+{% endblock javascripts%}

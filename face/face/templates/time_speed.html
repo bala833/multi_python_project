@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="m-3">
+	<a class="btn btn-secondary" href="{% url 'home' %}">Home</a>
+</div>
+  <h1 id="timer">Stop Watch</h1>
+  <div class="controls">
+    <button id="reset">Reset</button>
+    <button id="start">Start</button>
+    <button id="pause">Pause</button>
+    <h2 id="timeDisplay">Time elapsed: </h2>
+    <h2 id="time2">Time: </h2>
+  </div>
+
+
+{% endblock content %}
+{% block javascripts %}
+
+
+
+<script type="text/javascript">
+
+
+$( "#reset" ).click(Reset);
+$( "#start" ).click(Start);
+$( "#pause" ).click(Pause);
+
+var timerId;
+var time = 0;
+var seconds;
+
+// Call this function to update the text display
+function UpdateText( seconds ) {  
+  // timeElapsed += seconds;
+  second = seconds/ 360
+  min = second / 60
+  hrs = min / 60
+  $( "#timeDisplay" ).text("Time elapsed: " + seconds + 's');
+  $( "#time2" ).text("Time elapsed: " + parseInt(second) +':'+ parseInt(min) + ':' + parseInt(hrs));
+}
+
+// YOUR CODE GOES HERE
+
+
+function UpdateTime() {
+  seconds++;
+  UpdateText(seconds);
+
+}
+
+function Reset() {
+  console.log("Reset Clicked");
+  seconds = 0;
+  UpdateText(seconds)
+
+}
+
+function Start() {
+  console.log("Start Clicked");
+  // fix the start button bug for multiple clicks
+  window.clearInterval(timerId);
+  timerId = window.setInterval(UpdateTime, 1);
+}
+
+function Pause() {
+  console.log("Pause Clicked");
+  window.clearInterval(timerId);
+  UpdateText(seconds)
+}
+
+Reset();
+</script>
+{% endblock javascripts %}
+
+
+{% comment %}
+<!DOCTYPE html>
+<html>
+</head>
+<body>
+
+  <h1 id="timer">Stop Watch</h1>
+  <div class="controls">
+    <button id="reset">Reset</button>
+    <button id="start">Start</button>
+    <button id="pause">Pause</button>
+    <h2 id="timeDisplay">Time elapsed: </h2>
+    <h2 id="time2">Time: </h2>
+  </div>
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<!-- <script src="timers.js"></script> -->
+
+
+
+</html>
+
+
+{% endcomment %}
