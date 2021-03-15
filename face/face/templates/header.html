@@ -14,6 +14,176 @@
   from {top: 0px;}
   to {top: 300px;}
 }
+
+
+
+
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  border-radius: 25px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #1E1E2F;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+/*
+
+ .blink {
+        animation: blinker 0.6s linear infinite;
+        color: #1c87c9;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: sans-serif;
+      }
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+      .blink-one {
+        animation: blinker-one 1s linear infinite;
+      }
+      @keyframes blinker-one {
+        0% {
+          opacity: 0;
+        }
+      }*/
+      .blink-two {
+        animation: blinker-two 1.4s linear infinite;
+      }
+      @keyframes blinker-two {
+        100% {
+          opacity: 0;
+        }
+      }
+
+.login_text{
+  border-radius: 25px;
+  background-color: #30283B;
+  color: white;
+
+}
+
+
+.login_button{
+  border-radius: 25px;
+  background-color: #30283B;
+  color: white;
+
+}
 </style>
 <div>
 <div class="row m-2 ">
@@ -23,7 +193,7 @@
     box-shadow: 0px 0px 11px 2px black;">
         </a>
     </div>
-    <div class="col-md-6 text-center">
+    <div class="col-md-3 text-center">
         <h4>Face Recognization Using Django.</h4>
     </div>
     <!-- floating all names  -->
@@ -35,6 +205,55 @@
         {% endfor %}
     </div>
     {% endcomment %}
+    <div class="col-md-6">
+      
+    <!-- <h2>Modal Login Form</h2> -->
+{% if user.is_authenticated %}
+<div class="row float-right">
+    <div mb-2>
+        <span class="blink-two text-success">{{user.username|title }}</span>
+        <a href="{% url 'logout_view' %}" class="btn btn-warning ">Logout</a>
+    </div>
+</div>
+{% else %}
+<a onclick="document.getElementById('id01').style.display='block'" class="btn btn-warning float-right">Login</a>
+{% comment %}
+    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+{% endcomment %}
+{% endif %}
+    <div id="id01" class="modal ">
+      
+      <form class="modal-content animate" action="{% url 'login' %}" method="post" style="max-width: 28% !important">
+        {% csrf_token %}
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal" style="color: #787F81;">&times;</span>
+          <img src="img_avatar2.png" alt="Super Admin Login" class="avatar">
+        </div>
+
+        <div class="container">
+          <label for="uname"><b class="text-center" style="text-align: center;">Username</b></label>
+          <input type="text" class="login_text" placeholder="Enter Username" name="uname" required>
+          {% if validation_error %}
+          <span>{{validation_error}}</span>
+          {% endif %}
+
+          <label for="psw"><b>Password</b></label>
+          <input type="password" class="login_text" placeholder="Enter Password" name="psw" required>
+            
+          <button type="submit" class="login_button" style="width: 50%;">Login</button>
+          <label class="ml-5">
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+          </label>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+          <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+      </form>
+    </div>
+
+    </div>
     </div>
     <div>
       {% if img_txt_%}

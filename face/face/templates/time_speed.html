@@ -1,17 +1,60 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style type="text/css">
+  
+        .btn-circle.btn-xl { 
+            width: 300px; 
+            height: 300px; 
+            padding: 10px 16px; 
+            border-radius: 150px; 
+            font-size: 12px; 
+            text-align: center; 
+        } 
+        .btn-circle.ear { 
+            width: 100px; 
+            height: 100px; 
+            padding: 10px 16px; 
+            border-radius: 78px; 
+            font-size: 12px; 
+            text-align: center; 
+        }
+.shake_button:hover {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+
+</style>
 <div class="m-3">
-	<a class="btn btn-secondary" href="{% url 'home' %}">Home</a>
+    <a class="btn btn-secondary" href="{% url 'home' %}">Home</a>
 </div>
-  <h1 id="timer">Stop Watch</h1>
-  <div class="controls">
-    <button id="reset">Reset</button>
-    <button id="start">Start</button>
-    <button id="pause">Pause</button>
-    <h2 id="timeDisplay">Time elapsed: </h2>
-    <h2 id="time2">Time: </h2>
-  </div>
+<div class="container" style="margin-bottom: 50px;">
+    <div class="row d-flex justify-content-center controls" style="margin-top: 82px;">
+            <button class="btn btn-secondary btn-circle ear shake_button border_" id="pause" style="margin-top: -35px">Pause</button>
+            <div>
+            <button class="btn btn-secondary btn-circle btn-xl shake_button" id="start" style=""><h1> Start</h1>
+              <h4><span id="timeDisplay" style="color: gray;"></span></h4>
+              <h4><span id="time2" style="color: green;"></span></button></h4>
+
+            </div>
+            <button class="btn btn-secondary btn-circle ear shake_button" id="reset" style="margin-top: -35px">Reset</button>
+</div>
+</div>
 
 
 {% endblock content %}
@@ -36,7 +79,7 @@ function UpdateText( seconds ) {
   second = seconds/ 360
   min = second / 60
   hrs = min / 60
-  $( "#timeDisplay" ).text("Time elapsed: " + seconds + 's');
+  $( "#timeDisplay" ).text(seconds);
   $( "#time2" ).text("Time elapsed: " + parseInt(second) +':'+ parseInt(min) + ':' + parseInt(hrs));
 }
 
