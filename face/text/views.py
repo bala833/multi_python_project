@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from .models import ImageToText
-from text.forms import ImageToTextForm
+from text.forms import ImageToTextForm,LoginForm
 from rest_framework.response import Response
 from face2.models import Face
 from django.urls import reverse
@@ -120,44 +120,57 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 
 from django.contrib.auth import login as auth_login
-def login_(request):
-    count_all_face = Face.objects.all().count()
-    user_name = request.POST.get('uname')
-    user_pass = request.POST.get('psw')
-    user = authenticate(username=user_name, password=user_pass)
-    print(user,"invalid dataaaaaaaaa")
-    if user is not None:
-        login(request, user)
-        if user.is_superuser:
-            # print(request.user.is_authenticated)
-            # print(request.user)
-            # print(user.is_superuser,'is_superuser')
-            success_url = reverse('success_login')
-            return HttpResponseRedirect(success_url)
-        else:
-            print('nonnnnnnnnnnn')
-    else:
-        validation_error = 'Please Enter correct username and password'
-        return render(request, locals())
+def login_(request,template_name="login.html"):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            print('working')
+            pass
+
+    else:    
+        form = LoginForm()
+
+    return render(request, template_name, locals())    
 
 
-    # if user.is_superuser:
-    #     print(user.password)
-    #     success_url = reverse('success_login')
-    #     print(success_url,"jjjjjjjjjjjjjjj")
-    #     return HttpResponseRedirect(success_url)
-    #     # A backend authenticated the credentials
+
+    # count_all_face = Face.objects.all().count()
+    # user_name = request.POST.get('uname')
+    # user_pass = request.POST.get('psw')
+    # user = authenticate(username=user_name, password=user_pass)
+    # print(user,"invalid dataaaaaaaaa")
+    # if user is not None:
+    #     login(request, user)
+    #     if user.is_superuser:
+    #         # print(request.user.is_authenticated)
+    #         # print(request.user)
+    #         # print(user.is_superuser,'is_superuser')
+    #         success_url = reverse('success_login')
+    #         return HttpResponseRedirect(success_url)
+    #     else:
+    #         print('nonnnnnnnnnnn')
     # else:
-    #     print('nonnnnnnn')
-    # No backend authenticated the credentials
+    #     validation_error = 'Please Enter correct username and password'
+    #     return render(request, locals())
 
-    # user = User.objects.filter(username=user_name,password=user_pass)
-    # print(user,"kkkkkkkkkkkkkkkkkkkkk")
-    # if user.is_superuser:
-    #     print('super user')
-    # else:
-    #     print('user is not found')
-    return render(request, locals())
+
+    # # if user.is_superuser:
+    # #     print(user.password)
+    # #     success_url = reverse('success_login')
+    # #     print(success_url,"jjjjjjjjjjjjjjj")
+    # #     return HttpResponseRedirect(success_url)
+    # #     # A backend authenticated the credentials
+    # # else:
+    # #     print('nonnnnnnn')
+    # # No backend authenticated the credentials
+
+    # # user = User.objects.filter(username=user_name,password=user_pass)
+    # # print(user,"kkkkkkkkkkkkkkkkkkkkk")
+    # # if user.is_superuser:
+    # #     print('super user')
+    # # else:
+    # #     print('user is not found')
+    # return render(request, locals())
 
 
 
