@@ -1,24 +1,160 @@
 {% extends 'base.html' %}
-{% block content %}
+{% load static %}
 {% load crispy_forms_tags %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-    {{ form.user_name}}
+
+{% block content %}
+<style type="text/css">
+  .errorlist{
+    display: none;
+  } 
+  #id_user_name{
+    border-radius: 5px;
+  }
+  #id_password{
+    border-radius: 5px;
+  }
+
+
+.input-icons i {
+            position: absolute;
+        }
+          
+        .input-icons {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+          
+        .icon {
+            padding: 23px;
+            min-width: 40px;
+        }
+          
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+        }
+        .icon_rpls{
+
+            margin-left: -18px !important;
+        }
+      input[type=text], input[type=password] {
+          width: 106% !important;
+        }
+
+.pass_icon {      
+    float: right;
+    margin-top: 23px;
+  }
+</style>
+<div class="row " style="margin-top: 70px;">
+    <div class="col-md-4">
     </div>
-      <div class="col-md-3">
-    {{ form.password}}
+    <div class="col-md-4 mt-5 d-flex justify-content-center">
+        <span style="color: white;">
+            <h2>Login</h2>
+        </span>
     </div>
+    <div class="col-md-4">
     </div>
+</div>
+
+<div class="row " style="margin-bottom: 400px; ">
+    <div class="col-md-4">
     </div>
-    <button type="submit">Login</button>
-  </form>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="m-3">
+                {% if form.errors %}
+                <p style="color: red;">Your username and password didn't match. Please try again.</p>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+             <div class="input-icons">
+              <i class="fa fa-user icon icon_rpls"></i>
+                    {{form.user_name}}
+                     <i class="fa fa-key icon icon_rpls">
+                          </i>
+{% comment %}
+                    <a id="log_show_pwd" class="pass_icon "  onclick="show_password('id_password','log_show_pwd','log_hide_pwd')"><i class="fa fa-eye-slash show_password"></i></a>
+{% endcomment %}
+                    <a toggle="#id_password" class="field-icon toggle-password pass_icon"><i id="icon_add" class="fa fa-fw fa-eye  "></i></a>
+                    {{form.password}}
+                  <!-- <a toggle="#id_password" class="field-icon toggle-password pass_icon"><i class="fa fa-fw fa-eye "></i></a> -->
+                  </div>
+                    <div class="row mt-4 d-flex justify-content-center">
+                            <input class="btn btn-secondary mr-3" type="submit" value="submit" />
+                            <input class="btn btn-secondary ml-3" type="button" value="Cancel" onclick="window.history.go(-1);" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
 
 
 {% endblock content %}
+{% block javascripts %}
+<script type="text/javascript">
+  // function show_password(input_id, show_pwd_id, hide_pwd_id) {
+  //   document.getElementById(input_id).type = "text";
+  //   document.getElementById(show_pwd_id).addAttr('hidden');
+  //   document.getElementById(hide_pwd_id).removeAttr('hidden');
+  // }
+
+  // function hide_password(input_id, show_pwd_id, hide_pwd_id) {
+  //   alert(show_pwd_id+hide_pwd_id)
+  //     document.getElementById(input_id).type = "password";
+  //     document.getElementById(show_pwd_id).removeAttr('hidden');
+  //     document.getElementById(hide_pwd_id).addAttr('hidden');
+  // }
+
+
+$(".toggle-password").click(function() {
+
+  $(this).toggleClass("fa-eye fa-eye-slash");
+  var input = $($(this).attr("toggle"));
+  if (input.attr("type") == "password") {
+    input.attr("type", "text");
+  } else {
+    input.attr("type", "password");
+  }
+});
+</script>
+{% endblock javascripts %}
+
+
+{% comment %}
+<div class="container">
+    <div class="row">
+            {{ form.user_name|as_crispy_field}}
+        </div>
+        <div class="col-md-3">
+            {{ form.password|as_crispy_field}}
+        </div>
+    </div>
+</div>
 
 
 
+
+
+    <div class="row " style="margin-bottom: 400px;">
+        <div class="col-md-8">
+          <img src="{% static '/images/login_1.png' %}">
+        </div>
+        <div class="col-md-3 mt-5">
+            {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+            {% endif %}
+            <form method="post">
+                    {% csrf_token %}
+                    {{form}}
+                <button class="btn btn-success" type="submit">Login</button>
+                <input class="btn btn-secondary" type="button" value="Cancel" onclick="window.history.go(-1);" />
+            </form>
+        </div>
+  </div>
+{% endcomment %}

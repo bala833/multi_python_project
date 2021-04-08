@@ -7,7 +7,8 @@ from crispy_forms.layout import Layout,Field, Fieldset, ButtonHolder, Submit,But
 from django.forms import CharField, Form, PasswordInput
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
- 
+from django.contrib.auth import authenticate, login
+import requests
 # class VideoForm(forms.ModelForm):
 #     class Meta:
 #         model= Videos
@@ -40,7 +41,7 @@ class ImageToTextForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    user_name = forms.CharField(label="Enter Email/Number")
+    user_name = forms.CharField(label="Enter Email or Number")
     password =  forms.CharField(widget=PasswordInput())
 
     def __init__(self,*args, **kwargs):
@@ -51,14 +52,18 @@ class LoginForm(forms.Form):
     def clean(self):
         user_name = self.cleaned_data['user_name']
         password = self.cleaned_data['password']
+        print(user_name,password,'bala')
         if user_name and password:
             user = authenticate(username=user_name, password=password)
             print(user)
             if user:
+            #     if user.is_superuser:
+            #         login(request, user)
                 print('login')
             else:
-                raise ValidationError("enter right credential")
-        return user_name    
+                print('error')
+                raise forms.ValidationError('')
+        return user    
 
 # class ContactForm(forms.Form):
 #     postcode = forms.CharField(max_length=10)

@@ -122,10 +122,22 @@ from django.contrib.auth import logout
 from django.contrib.auth import login as auth_login
 def login_(request,template_name="login.html"):
     if request.method == "POST":
+        print(request.POST)
+        user_name = request.POST.get('user_name')
+        password = request.POST.get('password')
+        print(user_name,password,"views")
+
         form = LoginForm(request.POST)
         if form.is_valid():
-            print('working')
-            pass
+            user = authenticate(username=user_name, password=password)
+            if user is not None:
+                login(request, user)
+                if user.is_superuser:
+                    # print(request.user.is_authenticated)
+                    # print(request.user)
+                    # print(user.is_superuser,'is_superuser')
+                    success_url = reverse('success_login')
+                    return HttpResponseRedirect(success_url)
 
     else:    
         form = LoginForm()
